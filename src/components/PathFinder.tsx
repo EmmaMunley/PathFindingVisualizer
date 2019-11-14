@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Node from '../interfaces/Node';
-import Grid from './Grid';
+import { Node, Grid } from '../interfaces';
+import GridView from './GridView';
 
 interface Props {}
 
@@ -56,7 +56,7 @@ class PathFinder extends React.Component<Props, State> {
     console.log(this.state);
     console.log(this.createGrid(ROW, COL));
 
-    return <Grid nodes={nodes} />;
+    return <GridView nodes={nodes} />;
   }
 }
 export default PathFinder;

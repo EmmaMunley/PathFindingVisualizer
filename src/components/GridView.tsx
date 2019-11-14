@@ -1,6 +1,6 @@
 import * as React from 'react';
 import NodeView from './NodeView';
-import Node from '../interfaces/Node';
+import { Node } from '../interfaces';
 
 interface Props {
   nodes: Node[][];
@@ -8,7 +8,7 @@ interface Props {
 
 interface State {}
 
-class Grid extends React.Component<Props, State> {
+class GridView extends React.Component<Props, State> {
   render() {
     const { nodes } = this.props;
     return (
@@ -31,4 +31,4 @@ class Grid extends React.Component<Props, State> {
     );
   }
 }
-export default Grid;
+export default GridView;

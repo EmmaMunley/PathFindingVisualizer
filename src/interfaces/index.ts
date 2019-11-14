@@ -1,4 +1,4 @@
-export default interface Node {
+export interface Node {
   col: number;
   row: number;
   isStart?: boolean;
