@@ -9,10 +9,10 @@ interface Props {
 }
 
 //must pass in all the props
-const Node: React.FC<Props> = (props: Props) => {
+const NodeView: React.FC<Props> = (props: Props) => {
   // props.col
 
   return <td key={`x:${props.row},y:${props.col}`}>''</td>;
 };
 
-export default Node;
+export default NodeView;

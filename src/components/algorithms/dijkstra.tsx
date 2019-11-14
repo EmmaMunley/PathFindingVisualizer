@@ -1,10 +1,6 @@
-import NodeInterface from '../../interfaces/NodeInterface';
+import Node from '../../interfaces/Node';
 
-function dijkstraAlgo(
-  grid: NodeInterface,
-  startNode: NodeInterface,
-  finishNode: NodeInterface
-): boolean {
+function dijkstraAlgo(grid: Node, startNode: Node, finishNode: Node): boolean {
   if (!startNode || !finishNode || startNode === finishNode) {
     return false;
   }

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import NodeInterface from '../interfaces/NodeInterface';
+import Node from '../interfaces/Node';
 import Grid from './Grid';
 
 interface Props {}
 
 interface State {
-  nodes: NodeInterface[][];
+  nodes: Node[][];
 }
 const ROW = 10;
 const COL = 10;
@@ -26,12 +26,12 @@ class PathFinder extends React.Component<Props, State> {
     // this.setState({ nodes });
   }
 
-  createGrid(row: number, col: number): NodeInterface[][] {
-    const nodes: NodeInterface[][] = [];
+  createGrid(row: number, col: number): Node[][] {
+    const nodes: Node[][] = [];
     for (let i = 0; i < ROW; i++) {
-      const row: NodeInterface[] = [];
+      const row: Node[] = [];
       for (let j = 0; j < COL; j++) {
-        const node: NodeInterface = {
+        const node: Node = {
           row: i,
           col: j,
           isFinish: false,

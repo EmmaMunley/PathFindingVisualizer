@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Node from './Node';
-import NodeInterface from '../interfaces/NodeInterface';
+import NodeView from './NodeView';
+import Node from '../interfaces/Node';
 
 interface Props {
-  nodes: NodeInterface[][];
+  nodes: Node[][];
 }
 
 interface State {}
@@ -17,11 +17,11 @@ class Grid extends React.Component<Props, State> {
         <table>
           <tbody>
             {// map each row
-            nodes.map((row: NodeInterface[], i: number) => (
+            nodes.map((row: Node[], i: number) => (
               <tr key={i}>
                 {// map each node
-                row.map((node: NodeInterface, j: number) => (
-                  <Node {...node} />
+                row.map((node: Node, j: number) => (
+                  <NodeView {...node} />
                 ))}
               </tr>
             ))}
