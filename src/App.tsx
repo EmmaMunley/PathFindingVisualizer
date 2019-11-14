@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import * as React from 'react';
 import './App.css';
+import PathFinder from './components/PathFinder';
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div>HELLO</div>
+        <PathFinder />
       </header>
     </div>
   );
-}
+};
+
+// interface User {
+//   name: string;
+//   age?: number;
+// }
+
+// function add(x: number, y: number): number {
+//   return x + y;
+// }
+
+// function printUser(user: User): void {
+//   console.log(user);
+// }
+
+// const emma = {
+//   name: 'emma',
+// };
+
+// interface UserWithRole extends User {
+//   role: string;
+// }
+
+// printUser(emma);
+
+// const u: UserWithRole = {
+//   name: 'Alden',
+//   age: 24,
+//   role: 'hi',
+// };
 
 export default App;
