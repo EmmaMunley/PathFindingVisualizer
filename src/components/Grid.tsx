@@ -12,21 +12,22 @@ class Grid extends React.Component<Props, State> {
   render() {
     const { nodes } = this.props;
     return (
-      <table>
-        <th>table</th>
-        <tbody>
-          {// map each row
-          nodes.map((row: NodeInterface[], i: number) => (
-            <tr key={i}>
-              {// map each node
-              row.map((node: NodeInterface, j: number) => (
-                <td>hi</td>
-                // <Node {...node} />
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <React.Fragment>
+        <h1>table</h1>
+        <table>
+          <tbody>
+            {// map each row
+            nodes.map((row: NodeInterface[], i: number) => (
+              <tr key={i}>
+                {// map each node
+                row.map((node: NodeInterface, j: number) => (
+                  <Node {...node} />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </React.Fragment>
     );
   }
 }

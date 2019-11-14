@@ -10,32 +10,30 @@ interface State {
 const ROW = 10;
 const COL = 10;
 
-const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
+// const START_NODE_ROW = 10;
+// const START_NODE_COL = 15;
+// const FINISH_NODE_ROW = 10;
+// const FINISH_NODE_COL = 35;
 
 class PathFinder extends React.Component<Props, State> {
   state: State = {
-    nodes: [],
+    nodes: this.createGrid(ROW, COL),
   };
 
   constructor(props: Props) {
     super(props);
-    const nodes = this.createGrid();
-    this.setState({ nodes });
+    // const nodes = this.createGrid(ROW, COL);
+    // this.setState({ nodes });
   }
 
-  createGrid(): NodeInterface[][] {
+  createGrid(row: number, col: number): NodeInterface[][] {
     const nodes: NodeInterface[][] = [];
     for (let i = 0; i < ROW; i++) {
-      // this is what we'll be adding to nodes, after we populate it
       const row: NodeInterface[] = [];
       for (let j = 0; j < COL; j++) {
         const node: NodeInterface = {
           row: i,
           col: j,
-          // tbd, i dont know if i agree that you need these in this way
           isFinish: false,
           isStart: false,
         };
@@ -55,6 +53,8 @@ class PathFinder extends React.Component<Props, State> {
 
   render() {
     const { nodes } = this.state;
+    console.log(this.state);
+    console.log(this.createGrid(ROW, COL));
 
     return <Grid nodes={nodes} />;
   }

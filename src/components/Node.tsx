@@ -9,11 +9,10 @@ interface Props {
 }
 
 //must pass in all the props
-
 const Node: React.FC<Props> = (props: Props) => {
   // props.col
-  console.log('Node');
-  return <td key={`x:${props.row},y:${props.col}`}>hi</td>;
+
+  return <td key={`x:${props.row},y:${props.col}`}>''</td>;
 };
 
 export default Node;
