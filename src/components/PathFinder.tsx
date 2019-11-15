@@ -1,6 +1,7 @@
 import * as React from 'react';
+import config from '../config/default';
 import { Grid, Coordinate } from '../interfaces/Grid';
-import { PathResult, SearchAlgo } from '../interfaces/SearchAlgo';
+import { SearchAlgo } from '../interfaces/SearchAlgo';
 import GridView from './GridView';
 import { breadthFirstSearch } from '../algorithms/bfs';
 import { CopyGrid, CreateGrid, GetNodesAtCoords } from '../utils';
@@ -14,18 +15,15 @@ interface State {
   algos: Record<string, SearchAlgo>; //obj
   selectedAlgo: SearchAlgo;
 }
-const ROW = 25;
-const COL = 25;
-const SEARCH_STEP_INTERVAL = 50;
-const TRACE_STEP_INTERVAL = 50;
-const START_COORD = { x: 3, y: 8 };
-const TARGET_COORD = { x: 9, y: 1 };
+const { rows, cols, startCoord, targetCoord } = config.grid;
+const searchInterval: number = config.stepIntervals.search;
+const traceInterval: number = config.stepIntervals.trace;
 
 class PathFinder extends React.Component<Props, State> {
   state: State = {
-    grid: CreateGrid(ROW, COL),
-    startCoord: START_COORD,
-    endCoord: TARGET_COORD,
+    grid: CreateGrid(rows, cols),
+    startCoord: startCoord,
+    endCoord: targetCoord,
     algos: {
       bfs: breadthFirstSearch,
     },
@@ -53,28 +51,27 @@ class PathFinder extends React.Component<Props, State> {
 
   findPath() {
     const { grid, selectedAlgo, startCoord, endCoord } = this.state;
-    const result = selectedAlgo(grid, START_COORD, TARGET_COORD);
-    this.markVisited(grid, result);
-  }
-
-  markVisited(grid: Grid, result: PathResult) {
-    let stepCounter = 0;
-    result.visitedInOrder.forEach((coord, i) => {
-      stepCounter++;
-      this.animate('isVisited', coord, stepCounter, SEARCH_STEP_INTERVAL);
-    });
-
-    const foundNode: Coordinate[] | undefined = result.pathFromNode;
-    if (foundNode) {
-      this.foundPath(foundNode, stepCounter, TRACE_STEP_INTERVAL);
+    const result = selectedAlgo(grid, startCoord, endCoord);
+    const stepCounter = this.markVisited(result.visitedInOrder);
+    if (result.pathFromNode) {
+      this.markPath(result.pathFromNode, stepCounter, traceInterval);
     }
   }
 
-  foundPath(foundNode: Coordinate[], stepCounter: number, interval: number) {
+  markVisited(visited: Coordinate[]): number {
+    let stepCounter = 0;
+    visited.forEach((coord, i) => {
+      stepCounter++;
+      this.animate('isVisited', coord, stepCounter, searchInterval);
+    });
+    return stepCounter;
+  }
+
+  markPath(foundNode: Coordinate[], stepCounter: number, interval: number) {
     for (let i = 0; i < foundNode.length; i++) {
       stepCounter++;
       const coord = foundNode[i];
-      this.animate('isPath', coord, stepCounter, TRACE_STEP_INTERVAL);
+      this.animate('isPath', coord, stepCounter, traceInterval);
     }
   }
   render() {
