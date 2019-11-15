@@ -1,28 +1,19 @@
-import Grid from '../interfaces/Grid';
-import Node from '../interfaces/Node';
-import Coordinate from '../interfaces/Coordinate';
-import PathResult from '../interfaces/PathResult';
-import SearchAlgo from '../interfaces/SearchAlgo';
+import { Grid, Node, Coordinate } from '../interfaces/Grid';
+import { PathResult, SearchAlgo } from '../interfaces/SearchAlgo';
 import isNotEmpty from '../typeguards/notEmpty';
-
-export function copyGrid(grid: Grid): Grid {
-  const nodes = grid.nodes.map(row => row.map(node => ({ ...node })));
-
-  return {
-    nodes,
-    columnLength: grid.columnLength,
-    rowLength: grid.rowLength,
-  };
-}
+import { CopyGrid, GetNodesAtCoords } from '../utils/';
 
 export const breadthFirstSearch: SearchAlgo = (
   _grid: Grid,
-  startNode: Node,
-  target: Node
+  start: Coordinate,
+  target: Coordinate
 ): PathResult => {
+  const startNode: Node = GetNodesAtCoords(start, _grid);
+  const targetNode: Node = GetNodesAtCoords(target, _grid);
   startNode.isStart = true;
-  target.isFinish = true;
-  const grid = copyGrid(_grid);
+  targetNode.isFinish = true;
+
+  const grid = CopyGrid(_grid);
   const visitedInOrder: Coordinate[] = [];
   const queue = [startNode];
 
@@ -34,7 +25,10 @@ export const breadthFirstSearch: SearchAlgo = (
     currentNode.isVisited = true;
     visitedInOrder.push({ x: currentNode.row, y: currentNode.col });
 
-    if (currentNode.col === target.col && currentNode.row === target.row) {
+    if (
+      currentNode.col === targetNode.col &&
+      currentNode.row === targetNode.row
+    ) {
       return {
         pathFromNode: getPathFromNode(currentNode),
         visitedInOrder,
@@ -52,7 +46,7 @@ export const breadthFirstSearch: SearchAlgo = (
   return { visitedInOrder };
 };
 
-// called once you successfully find target node
+// called once you successfully find targetNode node
 function getPathFromNode(node: Node): Coordinate[] {
   const path: Coordinate[] = [{ x: node.row, y: node.col }];
 
@@ -60,7 +54,6 @@ function getPathFromNode(node: Node): Coordinate[] {
     node = node.previousNode!;
     path.unshift({ x: node.row, y: node.col });
   }
-
   return path;
 }
 

@@ -1,7 +1,9 @@
-import Grid from './Grid';
-import PathResult from './PathResult';
-import Node from './Node';
+import { Grid, Coordinate } from './Grid';
+export interface SearchAlgo {
+  (grid: Grid, startNode: Coordinate, endNode: Coordinate): PathResult;
+}
 
-export default interface SearchAlgo {
-  (grid: Grid, startNode: Node, endNode: Node): PathResult;
+export interface PathResult {
+  pathFromNode?: Coordinate[];
+  visitedInOrder: Coordinate[];
 }

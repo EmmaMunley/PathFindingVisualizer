@@ -1,95 +1,85 @@
 import * as React from 'react';
-import Node from '../interfaces/Node';
-import Grid from '../interfaces/Grid';
-import Coordinate from '../interfaces/Coordinate';
-import SearchAlgo from '../interfaces/SearchAlgo';
+import { Grid, Coordinate } from '../interfaces/Grid';
+import { PathResult, SearchAlgo } from '../interfaces/SearchAlgo';
 import GridView from './GridView';
-import { breadthFirstSearch, copyGrid } from '../algorithms/bfs';
+import { breadthFirstSearch } from '../algorithms/bfs';
+import { CopyGrid, CreateGrid, GetNodesAtCoords } from '../utils';
 
 interface Props {}
 
 interface State {
   grid: Grid;
+  startCoord: Coordinate;
+  endCoord: Coordinate;
   algos: Record<string, SearchAlgo>; //obj
   selectedAlgo: SearchAlgo;
 }
 const ROW = 25;
 const COL = 25;
-const STEP_INTERVAL = 50;
+const SEARCH_STEP_INTERVAL = 50;
+const TRACE_STEP_INTERVAL = 50;
+const START_COORD = { x: 3, y: 8 };
+const TARGET_COORD = { x: 9, y: 1 };
 
 class PathFinder extends React.Component<Props, State> {
   state: State = {
-    grid: this.createGrid(ROW, COL),
+    grid: CreateGrid(ROW, COL),
+    startCoord: START_COORD,
+    endCoord: TARGET_COORD,
     algos: {
       bfs: breadthFirstSearch,
     },
     selectedAlgo: breadthFirstSearch,
   };
 
-  createGrid(row: number, col: number): Grid {
-    const nodes: Node[][] = [];
-    for (let i = 0; i < COL; i++) {
-      const row: Node[] = [];
-      for (let j = 0; j < ROW; j++) {
-        const node: Node = {
-          row: j,
-          col: i,
-          distance: Infinity,
-          isFinish: false,
-          isStart: false,
-          isVisited: false,
-          isWall: false,
-          isPath: false,
-        };
-        row.push(node);
+  animate(
+    property: string,
+    coord: Coordinate,
+    stepCounter: number,
+    interval: number
+  ) {
+    setTimeout(() => {
+      const { grid } = this.state;
+      const newGrid = CopyGrid(grid);
+      const node = GetNodesAtCoords(coord, newGrid);
+      if (property === 'isVisited') {
+        node.isVisited = true;
+      } else if (property === 'isPath') {
+        node.isPath = true;
       }
-      nodes.push(row);
-    }
-
-    return { nodes, columnLength: COL, rowLength: ROW };
-  }
-  getNodeAt(coord: Coordinate, grid: Grid): Node {
-    return grid.nodes[coord.y][coord.x];
+      this.setState({ grid: newGrid });
+    }, interval * stepCounter);
   }
 
   findPath() {
-    const { grid, selectedAlgo } = this.state;
-    const result = selectedAlgo(grid, grid.nodes[8][3], grid.nodes[1][9]);
-    let stepCounter = 0;
+    const { grid, selectedAlgo, startCoord, endCoord } = this.state;
+    const result = selectedAlgo(grid, START_COORD, TARGET_COORD);
+    this.markVisited(grid, result);
+  }
 
+  markVisited(grid: Grid, result: PathResult) {
+    let stepCounter = 0;
     result.visitedInOrder.forEach((coord, i) => {
       stepCounter++;
-      setTimeout(() => {
-        const { grid } = this.state;
-
-        const newGrid = copyGrid(grid);
-        const node = this.getNodeAt(coord, newGrid);
-        node.isVisited = true;
-        this.setState({ grid: newGrid });
-      }, STEP_INTERVAL * stepCounter);
+      this.animate('isVisited', coord, stepCounter, SEARCH_STEP_INTERVAL);
     });
 
-    if (result.pathFromNode) {
-      for (let i = 0; i < result.pathFromNode.length; i++) {
-        stepCounter++;
-        const coord = result.pathFromNode[i];
-        setTimeout(() => {
-          const { grid } = this.state;
-
-          const newGrid = copyGrid(grid);
-          const node = this.getNodeAt(coord, newGrid);
-          node.isPath = true;
-
-          this.setState({ grid: newGrid });
-        }, STEP_INTERVAL * stepCounter);
-      }
+    const foundNode: Coordinate[] | undefined = result.pathFromNode;
+    if (foundNode) {
+      this.foundPath(foundNode, stepCounter, TRACE_STEP_INTERVAL);
     }
   }
 
+  foundPath(foundNode: Coordinate[], stepCounter: number, interval: number) {
+    for (let i = 0; i < foundNode.length; i++) {
+      stepCounter++;
+      const coord = foundNode[i];
+      this.animate('isPath', coord, stepCounter, TRACE_STEP_INTERVAL);
+    }
+  }
   render() {
     const { grid } = this.state;
     this.findPath();
-
     return <GridView nodes={grid.nodes} />;
   }
 }

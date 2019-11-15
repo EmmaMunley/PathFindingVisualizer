@@ -1,6 +1,6 @@
 import * as React from 'react';
 import NodeView from './NodeView';
-import Node from '../interfaces/Node';
+import { Node } from '../interfaces/Grid';
 
 interface Props {
   nodes: Node[][];
@@ -13,7 +13,7 @@ class GridView extends React.Component<Props, State> {
     const { nodes } = this.props;
     return (
       <React.Fragment>
-        <h1>table</h1>
+        <h1></h1>
         <table>
           <tbody>
             {// map each row
