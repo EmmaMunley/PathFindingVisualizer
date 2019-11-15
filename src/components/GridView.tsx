@@ -1,6 +1,6 @@
 import * as React from 'react';
 import NodeView from './NodeView';
-import { Node } from '../interfaces';
+import Node from '../interfaces/Node';
 
 interface Props {
   nodes: Node[][];
@@ -21,7 +21,7 @@ class GridView extends React.Component<Props, State> {
               <tr key={i}>
                 {// map each node
                 row.map((node: Node, j: number) => (
-                  <NodeView {...node} />
+                  <NodeView {...node} key={j} />
                 ))}
               </tr>
             ))}
