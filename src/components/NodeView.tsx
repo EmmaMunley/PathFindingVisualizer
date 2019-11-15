@@ -12,14 +12,23 @@ interface Props {
   // previousNode: null;
 }
 
-// const nodeClassNames = className(
-//   'start-node',
-//   'end-node',
-//   {
-//     'start': this.props.startNode
-//     'end': !this.props.showBulkActions
-//   }
-// );
+function getClassName(
+  isStart: boolean,
+  isFinish: boolean,
+  isPath: boolean,
+  isVisited: boolean
+): string {
+  if (isStart) {
+    return 'start-node';
+  } else if (isFinish) {
+    return 'end-node';
+  } else if (isPath) {
+    return 'node-shortest-path';
+  } else if (isVisited) {
+    return 'visited-node';
+  }
+  return 'node';
+}
 
 //must pass in all the props
 const NodeView: React.FC<Props> = (props: Props) => {
@@ -27,7 +36,12 @@ const NodeView: React.FC<Props> = (props: Props) => {
   return (
     <td
       key={`x:${props.row},y:${props.col}`}
-      className={props.isPath ? 'node-shortest-path' : 'node'}
+      className={getClassName(
+        props.isStart,
+        props.isFinish,
+        props.isPath,
+        props.isVisited
+      )}
     ></td>
   );
 };

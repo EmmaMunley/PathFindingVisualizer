@@ -2,6 +2,7 @@ import Grid from '../interfaces/Grid';
 import Node from '../interfaces/Node';
 import Coordinate from '../interfaces/Coordinate';
 import PathResult from '../interfaces/PathResult';
+import SearchAlgo from '../interfaces/SearchAlgo';
 import isNotEmpty from '../typeguards/notEmpty';
 
 export function copyGrid(grid: Grid): Grid {
@@ -14,11 +15,13 @@ export function copyGrid(grid: Grid): Grid {
   };
 }
 
-export function breadthFirstSearch(
+export const breadthFirstSearch: SearchAlgo = (
   _grid: Grid,
   startNode: Node,
   target: Node
-): PathResult {
+): PathResult => {
+  startNode.isStart = true;
+  target.isFinish = true;
   const grid = copyGrid(_grid);
   const visitedInOrder: Coordinate[] = [];
   const queue = [startNode];
@@ -47,7 +50,7 @@ export function breadthFirstSearch(
   }
   //no path was found
   return { visitedInOrder };
-}
+};
 
 // called once you successfully find target node
 function getPathFromNode(node: Node): Coordinate[] {

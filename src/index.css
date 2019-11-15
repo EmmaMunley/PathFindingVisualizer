@@ -28,7 +28,7 @@ td {
 }
 
 .start-node {
-  background-color: yellow;
+  background-color: pink;
 }
 
 .end-node {
@@ -36,6 +36,7 @@ td {
 }
 
 .visited-node {
+  /* background: purple; */
   animation-name: visitedAnimation;
   animation-duration: 1.5s;
   animation-timing-function: ease-out;
