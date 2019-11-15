@@ -13,7 +13,6 @@ class GridView extends React.Component<Props, State> {
     const { nodes } = this.props;
     return (
       <React.Fragment>
-        <h1></h1>
         <table>
           <tbody>
             {// map each row
