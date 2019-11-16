@@ -1,9 +1,14 @@
 import { Grid } from '../interfaces/Grid';
 
 // resets visited nodes and path nodes
-function resetVisitedNodes(grid: Grid): Grid {
+function resetVisitedNodes(grid: Grid, resetWalls = false): Grid {
   const nodes = grid.nodes.map(row =>
-    row.map(node => ({ ...node, isVisited: false, isPath: false }))
+    row.map(node => ({
+      ...node,
+      isVisited: false,
+      isPath: false,
+      isWall: resetWalls,
+    }))
   );
 
   return {

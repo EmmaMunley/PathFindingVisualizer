@@ -3,10 +3,14 @@ import { ClickType } from '../enums/ClickType';
 
 interface Props {
   selectClickType: (clickType: ClickType) => void;
+  enabled: boolean;
 }
 
 const SelectStartNode: React.FC<Props> = props => (
-  <button onClick={() => props.selectClickType(ClickType.selectStartNode)}>
+  <button
+    disabled={!props.enabled}
+    onClick={() => props.selectClickType(ClickType.selectStartNode)}
+  >
     Select Start Node
   </button>
 );
