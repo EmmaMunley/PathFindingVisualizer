@@ -22,7 +22,8 @@ td {
   background-color: white;
   transition: background-color 0.5s ease;
 }
-
+/* .x {
+} */
 .node {
   background-image: url(./assets/icons/grass.png);
   background-size: cover;
