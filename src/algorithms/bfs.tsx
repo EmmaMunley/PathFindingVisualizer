@@ -22,9 +22,12 @@ export const breadthFirstSearch: SearchAlgo = (
     if (currentNode.isVisited) {
       continue;
     }
-    currentNode.isVisited = true;
-    visitedInOrder.push({ x: currentNode.row, y: currentNode.col });
-
+    if (currentNode.isWall) {
+      continue;
+    } else {
+      currentNode.isVisited = true;
+      visitedInOrder.push({ x: currentNode.row, y: currentNode.col });
+    }
     if (currentNode.col === endNode.col && currentNode.row === endNode.row) {
       return {
         pathFromNode: getPathFromNode(currentNode),
@@ -33,7 +36,7 @@ export const breadthFirstSearch: SearchAlgo = (
     }
     const neighbors = getNeighbors(grid, currentNode);
     neighbors.forEach(node => {
-      if (!node.isVisited) {
+      if (!node.isVisited && !node.isWall) {
         node.previousNode = currentNode;
         queue.push(node);
       }
@@ -47,7 +50,7 @@ export const breadthFirstSearch: SearchAlgo = (
 function getPathFromNode(node: Node): Coordinate[] {
   const path: Coordinate[] = [{ x: node.row, y: node.col }];
 
-  while (node.previousNode !== undefined) {
+  while (node.previousNode !== undefined && !node.isWall) {
     node = node.previousNode!;
     path.unshift({ x: node.row, y: node.col });
   }

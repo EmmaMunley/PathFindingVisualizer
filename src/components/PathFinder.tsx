@@ -118,6 +118,8 @@ class PathFinder extends React.Component<Props, State> {
     const stepCounter = this.markVisited(result.visitedInOrder);
     if (result.pathFromNode) {
       this.markPath(result.pathFromNode, stepCounter);
+    } else {
+      alert('no path was found');
     }
   }
 

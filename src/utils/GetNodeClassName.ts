@@ -5,16 +5,16 @@ export default function getNodeCSSClass(
   isVisited: boolean,
   isWall: boolean
 ): string {
-  if (isStart) {
+  if (isPath) {
+    return 'node-shortest-path';
+  } else if (isVisited) {
+    return 'visited-node';
+  } else if (isStart) {
     return 'start-node';
   } else if (isEnd) {
     return 'end-node';
   } else if (isWall) {
     return 'node-wall';
-  } else if (isPath) {
-    return 'node-shortest-path';
-  } else if (isVisited) {
-    return 'visited-node';
   }
   return 'node';
 }
