@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { GetNodeClassName } from '../utils/GetNodeClassName';
+import { getNodeCSSClass } from '../utils';
 
 interface Props {
   col: number;
   row: number;
   isVisited: boolean;
   isStart: boolean;
-  isFinish: boolean;
+  isEnd: boolean;
   isPath: boolean;
   // isWall: boolean;
   // distance: number;
@@ -15,13 +15,12 @@ interface Props {
 
 //must pass in all the props
 const NodeView: React.FC<Props> = (props: Props) => {
-  // props.col
   return (
     <td
       key={`x:${props.row},y:${props.col}`}
-      className={GetNodeClassName(
+      className={getNodeCSSClass(
         props.isStart,
-        props.isFinish,
+        props.isEnd,
         props.isPath,
         props.isVisited
       )}

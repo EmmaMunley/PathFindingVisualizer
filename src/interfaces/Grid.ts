@@ -8,7 +8,7 @@ export interface Node {
   col: number;
   row: number;
   isStart: boolean;
-  isFinish: boolean;
+  isEnd: boolean;
   isVisited: boolean;
   isWall: boolean;
   isPath: boolean;

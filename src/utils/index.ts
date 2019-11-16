@@ -1,5 +1,6 @@
-import CopyGrid from './CopyGrid';
-import CreateGrid from './CreateGrid';
-import GetNodesAtCoords from './GetNodeAtCoords';
+import copyGrid from './CopyGrid';
+import createGrid from './CreateGrid';
+import getNodeAtCoords from './GetNodeAtCoords';
+import getNodeCSSClass from './GetNodeClassName';
 
-export { CopyGrid, CreateGrid, GetNodesAtCoords };
+export { copyGrid, createGrid, getNodeAtCoords, getNodeCSSClass };

@@ -1,19 +1,19 @@
 import { Grid, Node, Coordinate } from '../interfaces/Grid';
 import { PathResult, SearchAlgo } from '../interfaces/SearchAlgo';
 import isNotEmpty from '../typeguards/notEmpty';
-import { CopyGrid, GetNodesAtCoords } from '../utils/';
+import { copyGrid, getNodeAtCoords } from '../utils/';
 
 export const breadthFirstSearch: SearchAlgo = (
   _grid: Grid,
   start: Coordinate,
-  target: Coordinate
+  end: Coordinate
 ): PathResult => {
-  const startNode: Node = GetNodesAtCoords(start, _grid);
-  const targetNode: Node = GetNodesAtCoords(target, _grid);
+  const startNode: Node = getNodeAtCoords(start, _grid);
+  const endNode: Node = getNodeAtCoords(end, _grid);
   startNode.isStart = true;
-  targetNode.isFinish = true;
+  endNode.isEnd = true;
 
-  const grid = CopyGrid(_grid);
+  const grid = copyGrid(_grid);
   const visitedInOrder: Coordinate[] = [];
   const queue = [startNode];
 
@@ -25,10 +25,7 @@ export const breadthFirstSearch: SearchAlgo = (
     currentNode.isVisited = true;
     visitedInOrder.push({ x: currentNode.row, y: currentNode.col });
 
-    if (
-      currentNode.col === targetNode.col &&
-      currentNode.row === targetNode.row
-    ) {
+    if (currentNode.col === endNode.col && currentNode.row === endNode.row) {
       return {
         pathFromNode: getPathFromNode(currentNode),
         visitedInOrder,
@@ -46,7 +43,7 @@ export const breadthFirstSearch: SearchAlgo = (
   return { visitedInOrder };
 };
 
-// called once you successfully find targetNode node
+// called once you successfully find endNode node
 function getPathFromNode(node: Node): Coordinate[] {
   const path: Coordinate[] = [{ x: node.row, y: node.col }];
 

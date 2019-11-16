@@ -1,12 +1,12 @@
-export function GetNodeClassName(
+export default function getNodeCSSClass(
   isStart: boolean,
-  isFinish: boolean,
+  isEnd: boolean,
   isPath: boolean,
   isVisited: boolean
 ): string {
   if (isStart) {
     return 'start-node';
-  } else if (isFinish) {
+  } else if (isEnd) {
     return 'end-node';
   } else if (isPath) {
     return 'node-shortest-path';

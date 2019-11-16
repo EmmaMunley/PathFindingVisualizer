@@ -9,7 +9,7 @@ function createGrid(ROW: number, COL: number): Grid {
         row: j,
         col: i,
         distance: Infinity,
-        isFinish: false,
+        isEnd: false,
         isStart: false,
         isVisited: false,
         isWall: false,
