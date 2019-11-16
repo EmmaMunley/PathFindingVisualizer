@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ClickType } from '../enums/ClickType';
+import { ClickType } from '../enums';
 
 interface Props {
   selectClickType: (clickType: ClickType) => void;

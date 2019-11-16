@@ -35,6 +35,10 @@ td {
   background-color: green;
 }
 
+.node-wall {
+  background-color: black;
+}
+
 .visited-node {
   /* background: purple; */
   animation-name: visitedAnimation;
@@ -67,10 +71,6 @@ td {
     transform: scale(1);
     background-color: rgba(0, 190, 218, 0.75);
   }
-}
-
-.node-wall {
-  background-color: rgb(12, 53, 71);
 }
 
 .node-shortest-path {

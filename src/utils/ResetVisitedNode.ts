@@ -7,7 +7,7 @@ function resetVisitedNodes(grid: Grid, resetWalls = false): Grid {
       ...node,
       isVisited: false,
       isPath: false,
-      isWall: resetWalls,
+      isWall: node.isWall && !resetWalls,
     }))
   );
 

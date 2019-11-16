@@ -8,10 +8,11 @@ import { copyGrid, createGrid, getNodeAtCoords } from '../utils';
 import {
   SelectStartNode,
   SelectEndNode,
+  SelectWall,
   VisualizeAlgo,
   ResetBoard,
 } from '../buttons';
-import { ClickType } from '../enums/ClickType';
+import { ClickType } from '../enums';
 import resetVisitedNodes from '../utils/ResetVisitedNode';
 
 interface Props {}
@@ -58,17 +59,28 @@ class PathFinder extends React.Component<Props, State> {
     const grid = resetVisitedNodes(this.state.grid);
     const clickedNode: Node = getNodeAtCoords(coord, grid);
     if (clickType === ClickType.selectStartNode) {
+      if (clickedNode.isWall) {
+        return;
+      }
       const oldStartNode = getNodeAtCoords(this.state.startCoord, grid);
       oldStartNode.isStart = false;
       clickedNode.isStart = true;
       this.setState({ startCoord: coord, grid, hasRun: false });
     } else if (clickType === ClickType.selectEndNode) {
+      if (clickedNode.isWall) {
+        return;
+      }
       const oldEndNode = getNodeAtCoords(this.state.endCoord, grid);
       oldEndNode.isEnd = false;
       clickedNode.isEnd = true;
       this.setState({ endCoord: coord, grid, hasRun: false });
+    } else if (clickType === ClickType.selectWall) {
+      if (clickedNode.isStart || clickedNode.isEnd) {
+        return;
+      }
+      clickedNode.isWall = !clickedNode.isWall;
+      this.setState({ grid });
     }
-    //wall clicktype goes here
   }
 
   selectClickType(clickType: ClickType): void {
@@ -146,6 +158,7 @@ class PathFinder extends React.Component<Props, State> {
           selectClickType={this.selectClickType}
           enabled={this.state.canReset}
         />
+        <SelectWall selectClickType={this.selectClickType} />
         <VisualizeAlgo findPath={this.findPath} />
         <ResetBoard reset={this.resetGrid} enabled={this.state.canReset} />
         <GridView nodes={grid.nodes} transformNode={this.transformNode} />

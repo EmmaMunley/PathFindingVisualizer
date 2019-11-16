@@ -8,7 +8,7 @@ interface Props {
   isStart: boolean;
   isEnd: boolean;
   isPath: boolean;
-  // isWall: boolean;
+  isWall: boolean;
   // distance: number;
   // previousNode: null;
   transformNode: (coordinate: Coordinate) => void;
@@ -16,18 +16,23 @@ interface Props {
 
 //must pass in all the props
 const NodeView: React.FC<Props> = (props: Props) => {
-  const { row, col, transformNode } = props;
+  const {
+    row,
+    col,
+    transformNode,
+    isStart,
+    isEnd,
+    isPath,
+    isVisited,
+    isWall,
+  } = props;
   const coord = { x: row, y: col };
+
   return (
     <td
       key={`x:${row},y:${col}`}
       onClick={() => transformNode(coord)}
-      className={getNodeCSSClass(
-        props.isStart,
-        props.isEnd,
-        props.isPath,
-        props.isVisited
-      )}
+      className={getNodeCSSClass(isStart, isEnd, isPath, isVisited, isWall)}
     ></td>
   );
 };
