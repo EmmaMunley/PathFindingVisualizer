@@ -24,23 +24,36 @@ td {
 }
 
 .node {
-  background-color: white;
+  background-image: url(./assets/icons/grass.png);
+  background-size: cover;
 }
 
 .start-node {
-  background-color: pink;
+  background-image: url(./assets/icons/squirrel.png);
+  background-size: cover;
 }
 
 .end-node {
-  background-color: green;
+  background-image: url(./assets/icons/acorn.png);
+  background-size: cover;
 }
 
 .node-wall {
-  background-color: black;
+  background-image: url(./assets/icons/tree.png);
+  background-size: cover;
+}
+
+.star {
+  background-image: url(./assets/icons/start.png);
+  background-size: cover;
+}
+
+.finish-line {
+  background-image: url(./assets/icons/finish.svg);
+  background-size: cover;
 }
 
 .visited-node {
-  /* background: purple; */
   animation-name: visitedAnimation;
   animation-duration: 1.5s;
   animation-timing-function: ease-out;
@@ -53,23 +66,27 @@ td {
 
 @keyframes visitedAnimation {
   0% {
-    transform: scale(0.3);
-    background-color: rgba(0, 0, 66, 0.75);
+    /* transform: scale(0.3); */
+    background-image: url(./assets/icons/squirrel.png);
+    background-size: cover;
     border-radius: 100%;
   }
 
   50% {
-    background-color: rgba(17, 104, 217, 0.75);
+    transform: scale(0.8);
+    background-image: url(./assets/icons/dark-grass.png);
+    background-size: cover;
   }
 
   75% {
-    transform: scale(1.2);
-    background-color: rgba(0, 217, 159, 0.75);
+    background-image: url(./assets/icons/dark-grass.png);
+    background-size: cover;
   }
 
   100% {
     transform: scale(1);
-    background-color: rgba(0, 190, 218, 0.75);
+    background-image: url(./assets/icons/dark-grass.png);
+    background-size: cover;
   }
 }
 
@@ -87,16 +104,19 @@ td {
 @keyframes shortestPath {
   0% {
     transform: scale(0.6);
-    background-color: rgb(255, 254, 106);
+    background-image: url(./assets/icons/dirt.png);
+    background-size: cover;
   }
 
   50% {
     transform: scale(1.2);
-    background-color: rgb(255, 254, 106);
+    background-image: url(./assets/icons/dirt.png);
+    background-size: cover;
   }
 
   100% {
     transform: scale(1);
-    background-color: rgb(255, 254, 106);
+    background-image: url(./assets/icons/dirt.png);
+    background-size: cover;
   }
 }

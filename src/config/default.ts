@@ -6,7 +6,7 @@ export default {
     endCoord: { x: 9, y: 1 },
   },
   stepIntervals: {
-    search: 50,
-    trace: 50,
+    search: 30,
+    trace: 30,
   },
 };
