@@ -4,7 +4,7 @@ import { PathFinder } from './components';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="App background">
       <header className="App-header">
         <div>HELLO</div>
         <PathFinder />

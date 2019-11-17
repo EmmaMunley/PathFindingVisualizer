@@ -24,8 +24,7 @@ interface State {
   algos: Record<string, SearchAlgo>; //obj
   selectedAlgo: SearchAlgo;
   clickType?: ClickType;
-  hasRun: boolean;
-  canReset: boolean;
+  isRunning: boolean;
 }
 
 const { rows, cols, startCoord, endCoord } = config.grid;
@@ -42,8 +41,8 @@ class PathFinder extends React.Component<Props, State> {
     },
     clickType: undefined,
     selectedAlgo: breadthFirstSearch,
-    hasRun: false,
-    canReset: true,
+
+    isRunning: false,
   };
 
   constructor(props: Props) {
@@ -55,6 +54,9 @@ class PathFinder extends React.Component<Props, State> {
   }
 
   transformNode(coord: Coordinate): void {
+    if (this.state.isRunning) {
+      return;
+    }
     const clickType = this.state.clickType;
     const grid = resetVisitedNodes(this.state.grid);
     const clickedNode: Node = getNodeAtCoords(coord, grid);
@@ -65,7 +67,7 @@ class PathFinder extends React.Component<Props, State> {
       const oldStartNode = getNodeAtCoords(this.state.startCoord, grid);
       oldStartNode.isStart = false;
       clickedNode.isStart = true;
-      this.setState({ startCoord: coord, grid, hasRun: false });
+      this.setState({ startCoord: coord, grid });
     } else if (clickType === ClickType.selectEndNode) {
       if (clickedNode.isWall) {
         return;
@@ -73,7 +75,7 @@ class PathFinder extends React.Component<Props, State> {
       const oldEndNode = getNodeAtCoords(this.state.endCoord, grid);
       oldEndNode.isEnd = false;
       clickedNode.isEnd = true;
-      this.setState({ endCoord: coord, grid, hasRun: false });
+      this.setState({ endCoord: coord, grid });
     } else if (clickType === ClickType.selectWall) {
       if (clickedNode.isStart || clickedNode.isEnd) {
         return;
@@ -107,28 +109,37 @@ class PathFinder extends React.Component<Props, State> {
   }
 
   findPath(): void {
-    const { grid, selectedAlgo, startCoord, endCoord, hasRun } = this.state;
-    if (hasRun) {
+    const { selectedAlgo, startCoord, endCoord, isRunning } = this.state;
+    if (isRunning) {
       return;
-    } else {
-      this.setState({ hasRun: true });
     }
-    this.setState({ canReset: false });
-    const result = selectedAlgo(grid, startCoord, endCoord);
-    const stepCounter = this.markVisited(result.visitedInOrder);
-    if (result.pathFromNode) {
+    this.setState({ isRunning: true });
+    const newGrid = this.resetGrid(false);
+    const result = selectedAlgo(newGrid, startCoord, endCoord);
+
+    const stepCounter = this.markVisited(
+      result.visitedInOrder,
+      !!result.pathFromNode
+    );
+    if (result.pathFromNode && stepCounter) {
       this.markPath(result.pathFromNode, stepCounter);
     } else {
       alert('no path was found');
     }
   }
 
-  markVisited(visited: Coordinate[]): number {
+  markVisited(visited: Coordinate[], pathExists: boolean): number | undefined {
     let stepCounter = 0;
     visited.forEach((coord, i) => {
       stepCounter++;
       this.animate('isVisited', coord, stepCounter, searchInterval);
     });
+    if (!pathExists) {
+      setTimeout(() => {
+        this.setState({ isRunning: false });
+      }, searchInterval * stepCounter);
+      return;
+    }
     return stepCounter;
   }
 
@@ -139,32 +150,30 @@ class PathFinder extends React.Component<Props, State> {
       this.animate('isPath', coord, stepCounter, traceInterval);
     }
     setTimeout(() => {
-      this.setState({ canReset: true });
+      this.setState({ isRunning: false });
     }, traceInterval * stepCounter);
   }
 
-  resetGrid() {
-    const grid = resetVisitedNodes(this.state.grid, true);
+  resetGrid(resetWalls = false): Grid {
+    const grid = resetVisitedNodes(this.state.grid, resetWalls);
     this.setState({ grid });
+    return grid;
   }
 
   render() {
     const { grid } = this.state;
     return (
-      <React.Fragment>
-        <SelectStartNode
-          selectClickType={this.selectClickType}
-          enabled={this.state.canReset}
-        />
-        <SelectEndNode
-          selectClickType={this.selectClickType}
-          enabled={this.state.canReset}
-        />
+      <div className="buttons">
+        <SelectStartNode selectClickType={this.selectClickType} />
+        <SelectEndNode selectClickType={this.selectClickType} />
         <SelectWall selectClickType={this.selectClickType} />
         <VisualizeAlgo findPath={this.findPath} />
-        <ResetBoard reset={this.resetGrid} enabled={this.state.canReset} />
+        <ResetBoard
+          reset={() => this.resetGrid(true)}
+          disabled={this.state.isRunning}
+        />
         <GridView nodes={grid.nodes} transformNode={this.transformNode} />
-      </React.Fragment>
+      </div>
     );
   }
 }
