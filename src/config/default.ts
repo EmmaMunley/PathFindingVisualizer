@@ -9,4 +9,6 @@ export default {
     search: 30,
     trace: 30,
   },
+  normal: 1,
+  weighted: 2,
 };

@@ -30,6 +30,7 @@ interface State {
 }
 
 const { rows, cols, startCoord, endCoord } = config.grid;
+const { normal, weighted } = config;
 const searchInterval: number = config.stepIntervals.search;
 const traceInterval: number = config.stepIntervals.trace;
 
@@ -87,9 +88,9 @@ class PathFinder extends React.Component<Props, State> {
       if (clickedNode.isStart || clickedNode.isEnd || clickedNode.isWall) {
         return;
       }
-      clickedNode.weight === 1
-        ? (clickedNode.weight = 2)
-        : (clickedNode.weight = 1);
+      clickedNode.weight === normal
+        ? (clickedNode.weight = weighted)
+        : (clickedNode.weight = normal);
       this.setState({ grid });
     }
   }
