@@ -3,7 +3,8 @@ export default function getNodeCSSClass(
   isEnd: boolean,
   isPath: boolean,
   isVisited: boolean,
-  isWall: boolean
+  isWall: boolean,
+  weight: number
 ): string {
   if (isStart) {
     return 'start-node';
@@ -16,6 +17,9 @@ export default function getNodeCSSClass(
     return 'visited-node';
   } else if (isWall) {
     return 'node-wall';
+  } else if (weight === 1) {
+    return 'node';
+  } else {
+    return 'node-weight';
   }
-  return 'node';
 }

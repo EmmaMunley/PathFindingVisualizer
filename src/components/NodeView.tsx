@@ -33,7 +33,14 @@ const NodeView: React.FC<Props> = (props: Props) => {
     <td
       key={`x:${row},y:${col}`}
       onClick={() => transformNode(coord)}
-      className={getNodeCSSClass(isStart, isEnd, isPath, isVisited, isWall)}
+      className={getNodeCSSClass(
+        isStart,
+        isEnd,
+        isPath,
+        isVisited,
+        isWall,
+        weight
+      )}
     ></td>
   );
 };

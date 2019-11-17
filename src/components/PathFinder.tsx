@@ -9,6 +9,7 @@ import {
   SelectStartNode,
   SelectEndNode,
   SelectWall,
+  SelectWeight,
   VisualizeAlgo,
   ResetBoard,
 } from '../buttons';
@@ -80,6 +81,14 @@ class PathFinder extends React.Component<Props, State> {
         return;
       }
       clickedNode.isWall = !clickedNode.isWall;
+      this.setState({ grid });
+    } else if (clickType === ClickType.selectWeight) {
+      if (clickedNode.isStart || clickedNode.isEnd || clickedNode.isWall) {
+        return;
+      }
+      clickedNode.weight === 1
+        ? (clickedNode.weight = 2)
+        : (clickedNode.weight = 1);
       this.setState({ grid });
     }
   }
@@ -166,6 +175,7 @@ class PathFinder extends React.Component<Props, State> {
         <SelectStartNode selectClickType={this.selectClickType} />
         <SelectEndNode selectClickType={this.selectClickType} />
         <SelectWall selectClickType={this.selectClickType} />
+        <SelectWeight selectClickType={this.selectClickType} />
         <VisualizeAlgo findPath={this.findPath} />
         <ResetBoard
           reset={() => this.resetGrid(true)}
