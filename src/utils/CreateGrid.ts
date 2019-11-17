@@ -27,6 +27,7 @@ function createGrid(
         isVisited: false,
         isWall: false,
         isPath: false,
+        weight: 1,
       };
 
       row.push(node);

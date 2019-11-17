@@ -13,6 +13,7 @@ export interface Node {
   isWall: boolean;
   isPath: boolean;
   distance: number;
+  weight: number;
   previousNode?: Node;
 }
 

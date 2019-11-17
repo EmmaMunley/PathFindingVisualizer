@@ -41,7 +41,6 @@ class PathFinder extends React.Component<Props, State> {
     },
     clickType: undefined,
     selectedAlgo: breadthFirstSearch,
-
     isRunning: false,
   };
 

@@ -9,7 +9,7 @@ interface Props {
   isEnd: boolean;
   isPath: boolean;
   isWall: boolean;
-  // distance: number;
+  weight: number;
   // previousNode: null;
   transformNode: (coordinate: Coordinate) => void;
 }
@@ -25,6 +25,7 @@ const NodeView: React.FC<Props> = (props: Props) => {
     isPath,
     isVisited,
     isWall,
+    weight,
   } = props;
   const coord = { x: row, y: col };
 
