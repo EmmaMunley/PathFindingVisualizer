@@ -15,6 +15,7 @@ import {
 } from '../buttons';
 import { ClickType } from '../enums';
 import resetVisitedNodes from '../utils/ResetVisitedNode';
+import { dijkstra } from '../algorithms/dijkstra';
 
 interface Props {}
 
@@ -41,7 +42,7 @@ class PathFinder extends React.Component<Props, State> {
       bfs: breadthFirstSearch,
     },
     clickType: undefined,
-    selectedAlgo: breadthFirstSearch,
+    selectedAlgo: dijkstra,
     isRunning: false,
   };
 
@@ -124,7 +125,7 @@ class PathFinder extends React.Component<Props, State> {
     this.setState({ isRunning: true });
     const newGrid = this.resetGrid(false);
     const result = selectedAlgo(newGrid, startCoord, endCoord);
-
+    console.log('result', result);
     const stepCounter = this.markVisited(
       result.visitedInOrder,
       !!result.pathFromNode
@@ -162,8 +163,8 @@ class PathFinder extends React.Component<Props, State> {
     }, traceInterval * stepCounter);
   }
 
-  resetGrid(resetWalls = false): Grid {
-    const grid = resetVisitedNodes(this.state.grid, resetWalls);
+  resetGrid(resetWalls = false, resetWeights = false): Grid {
+    const grid = resetVisitedNodes(this.state.grid, resetWalls, resetWeights);
     this.setState({ grid });
     return grid;
   }
@@ -178,7 +179,7 @@ class PathFinder extends React.Component<Props, State> {
         <SelectWeight selectClickType={this.selectClickType} />
         <VisualizeAlgo findPath={this.findPath} />
         <ResetBoard
-          reset={() => this.resetGrid(true)}
+          reset={() => this.resetGrid(true, true)}
           disabled={this.state.isRunning}
         />
         <GridView nodes={grid.nodes} transformNode={this.transformNode} />

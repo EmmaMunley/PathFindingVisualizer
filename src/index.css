@@ -57,6 +57,16 @@ button {
   background-size: cover;
 }
 
+.node-weight-path {
+  background-image: url(./assets/icons/stump-path.png);
+  background-size: cover;
+}
+
+.node-visited-path {
+  background-image: url(./assets/icons/visited-stump.png);
+  background-size: cover;
+}
+
 .star {
   background-image: url(./assets/icons/start.png);
   background-size: cover;

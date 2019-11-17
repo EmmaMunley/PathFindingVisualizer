@@ -11,6 +11,12 @@ export default function getNodeCSSClass(
   } else if (isEnd) {
     return 'end-node';
   }
+  if (isPath && weight > 1) {
+    return 'node-weight-path';
+  }
+  if (isVisited && weight > 1) {
+    return 'node-visited-path';
+  }
   if (isPath) {
     return 'node-shortest-path';
   } else if (isVisited) {

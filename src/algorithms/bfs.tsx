@@ -8,12 +8,12 @@ export const breadthFirstSearch: SearchAlgo = (
   start: Coordinate,
   end: Coordinate
 ): PathResult => {
-  const startNode: Node = getNodeAtCoords(start, _grid);
-  const endNode: Node = getNodeAtCoords(end, _grid);
+  const grid = copyGrid(_grid);
+  const startNode: Node = getNodeAtCoords(start, grid);
+  const endNode: Node = getNodeAtCoords(end, grid);
   startNode.isStart = true;
   endNode.isEnd = true;
 
-  const grid = copyGrid(_grid);
   const visitedInOrder: Coordinate[] = [];
   const queue = [startNode];
 

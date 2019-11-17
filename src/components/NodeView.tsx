@@ -10,7 +10,6 @@ interface Props {
   isPath: boolean;
   isWall: boolean;
   weight: number;
-  // previousNode: null;
   transformNode: (coordinate: Coordinate) => void;
 }
 
