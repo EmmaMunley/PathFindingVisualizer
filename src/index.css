@@ -7,9 +7,32 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.8vw;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+h2 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.5vw;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+h3 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.2vw;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  font-weight: normal;
+}
 p {
   font-family: 'Cabin', sans-serif;
-  font-size: 20px;
+  font-size: 2vw;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 table {
@@ -73,6 +96,58 @@ option {
   justify-content: center;
   align-content: center;
 }
+
+.modal-wrapper {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-inner {
+  position: fixed;
+  width: 60%;
+  height: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  color: black;
+}
+
+.modal {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-text {
+  font-size: 1.2vw;
+}
+
+.modal-btn {
+  font-size: 1.2vw;
+  margin: 2%;
+  height: 50px;
+  width: 15vw;
+}
+.icon {
+  width: 25px;
+  height: 25px;
+  margin: 5px;
+}
+
+.icon-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -112,7 +187,7 @@ option {
 }
 
 .node-wall {
-  background-color: gray;
+  background-color: rgb(49, 46, 46);
   box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
 }
 

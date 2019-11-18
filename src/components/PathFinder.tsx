@@ -18,6 +18,7 @@ import resetVisitedNodes from '../utils/ResetVisitedNode';
 import { dijkstra } from '../algorithms/dijkstra';
 import AlgoDropdown from './AlgoDropdown';
 import { AlgoType, getAlgo } from '../enums/AlgoType';
+import Modal from './Modal';
 
 interface Props {}
 
@@ -50,6 +51,8 @@ class PathFinder extends React.Component<Props, State> {
     isRunning: false,
   };
 
+  modal: React.RefObject<Modal>;
+
   constructor(props: Props) {
     super(props);
     this.selectClickType = this.selectClickType.bind(this);
@@ -57,6 +60,8 @@ class PathFinder extends React.Component<Props, State> {
     this.transformNode = this.transformNode.bind(this);
     this.findPath = this.findPath.bind(this);
     this.resetGrid = this.resetGrid.bind(this);
+    this.modal = React.createRef();
+    this.openModal = this.openModal.bind(this);
   }
 
   transformNode(coord: Coordinate): void {
@@ -183,10 +188,19 @@ class PathFinder extends React.Component<Props, State> {
     return grid;
   }
 
+  openModal() {
+    const node = this.modal.current;
+    if (node) {
+      node.openModal();
+    }
+  }
+
   render() {
     const { grid } = this.state;
+
     return (
       <div className="path-finder">
+        <Modal ref={this.modal} />
         <div className="column">
           <nav className="row">
             <AlgoDropdown
@@ -215,6 +229,8 @@ class PathFinder extends React.Component<Props, State> {
               reset={() => this.resetGrid(true, true)}
               disabled={this.state.isRunning}
             />
+
+            <button onClick={this.openModal}>Tutorial</button>
           </nav>
         </div>
         <div className="center" id="no-margin">
