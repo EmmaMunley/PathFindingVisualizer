@@ -12,7 +12,7 @@ const SelectStartNode: React.FC<Props> = props => (
     onClick={() => props.selectClickType(CLICK_TYPE)}
     className={props.currentClickType === CLICK_TYPE ? 'btn-selected' : ''}
   >
-    Select Start Node
+    Select Start
   </button>
 );
 

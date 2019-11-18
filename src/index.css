@@ -17,19 +17,19 @@ table {
 }
 
 td {
-  height: 85px;
-  width: 85px;
+  height: 45px;
+  width: 45px;
 }
 
 button {
   color: black;
   padding: 1%;
   border-radius: 5px;
-  font-size: 24px;
+  font-size: 1.2vw;
   height: 5%;
   text-align: center;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   font-weight: bold;
   text-shadow: 1px 1px 1px rgb(146, 139, 139);
 }
@@ -44,16 +44,15 @@ nav {
 
 select {
   font-family: 'Cabin', sans-serif;
-  font-size: 30px;
   text-align: center;
-  height: 80px;
+  font-size: 1.2vw;
   padding: 2%;
-  width: 500px;
+  width: 15vw;
 }
 
 option {
   font-family: 'Cabin', sans-serif;
-  font-size: 30px;
+  font-size: 3vw;
   text-align: center;
   height: 5%;
   padding: 2%;

@@ -12,7 +12,7 @@ const SelectEndNode: React.FC<Props> = props => (
     onClick={() => props.selectClickType(CLICK_TYPE)}
     className={props.currentClickType === CLICK_TYPE ? 'btn-selected' : ''}
   >
-    Select End Node
+    Select End
   </button>
 );
 
