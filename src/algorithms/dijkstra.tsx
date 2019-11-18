@@ -55,7 +55,7 @@ function getPathFromNode(endNode: Node): Coordinate[] {
   let currentNode: Node | undefined = endNode;
 
   while (currentNode !== undefined) {
-    path.push({ x: currentNode.row, y: currentNode.col });
+    path.unshift({ x: currentNode.row, y: currentNode.col });
     currentNode = currentNode.previousNode;
   }
   return path;

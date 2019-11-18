@@ -5,7 +5,9 @@ interface Props {
 }
 
 const VisualizeAlgo: React.FC<Props> = props => (
-  <button onClick={() => props.findPath()}>Visualize</button>
+  <button id="rainbow" onClick={() => props.findPath()}>
+    Visualize
+  </button>
 );
 
 export default VisualizeAlgo;

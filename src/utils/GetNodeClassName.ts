@@ -6,18 +6,19 @@ export default function getNodeCSSClass(
   isWall: boolean,
   weight: number
 ): string {
-  if (isStart) {
+  if (isStart && !isVisited) {
     return 'start-node';
-  } else if (isEnd) {
+  } else if (isStart && isVisited) {
+    return 'start-node-visited';
+  } else if (isEnd && !isVisited) {
     return 'end-node';
-  }
-  if (isPath && weight > 1) {
+  } else if (isEnd && isVisited) {
+    return 'end-node-visited';
+  } else if (isPath && weight > 1) {
     return 'node-weight-path';
-  }
-  if (isVisited && weight > 1) {
-    return 'node-visited-path';
-  }
-  if (isPath) {
+  } else if (isVisited && weight > 1) {
+    return 'node-weight-visited';
+  } else if (isPath) {
     return 'node-shortest-path';
   } else if (isVisited) {
     return 'visited-node';

@@ -111,12 +111,7 @@ class PathFinder extends React.Component<Props, State> {
     this.setState({ clickType });
   }
 
-  animate(
-    property: string,
-    coord: Coordinate,
-    stepCounter: number,
-    interval: number
-  ): void {
+  animate(property: string, coord: Coordinate, waitTimeMs: number): void {
     setTimeout(() => {
       const { grid } = this.state;
       const newGrid = copyGrid(grid);
@@ -127,7 +122,7 @@ class PathFinder extends React.Component<Props, State> {
         node.isPath = true;
       }
       this.setState({ grid: newGrid });
-    }, interval * stepCounter);
+    }, waitTimeMs);
   }
 
   findPath(): void {
@@ -141,42 +136,45 @@ class PathFinder extends React.Component<Props, State> {
     if (algorithm) {
       const result = algorithm(newGrid, startCoord, endCoord);
 
-      const stepCounter = this.markVisited(
+      const baseDelayMs = this.markVisited(
         result.visitedInOrder,
         !!result.pathFromNode
       );
-      if (result.pathFromNode && stepCounter) {
-        this.markPath(result.pathFromNode, stepCounter);
+      if (result.pathFromNode) {
+        this.markPath(result.pathFromNode, baseDelayMs);
       } else {
         alert('no path was found');
       }
     }
   }
 
-  markVisited(visited: Coordinate[], pathExists: boolean): number | undefined {
+  markVisited(visited: Coordinate[], pathExists: boolean): number {
     let stepCounter = 0;
     visited.forEach((coord, i) => {
       stepCounter++;
-      this.animate('isVisited', coord, stepCounter, searchInterval);
+      this.animate('isVisited', coord, stepCounter * searchInterval);
     });
     if (!pathExists) {
       setTimeout(() => {
         this.setState({ isRunning: false });
       }, searchInterval * stepCounter);
-      return;
     }
-    return stepCounter;
+    return stepCounter * searchInterval;
   }
 
-  markPath(foundNode: Coordinate[], stepCounter: number): void {
-    for (let i = 0; i < foundNode.length; i++) {
-      stepCounter++;
-      const coord = foundNode[i];
-      this.animate('isPath', coord, stepCounter, traceInterval);
+  markPath(foundNode: Coordinate[], baseDelayMs: number): void {
+    let stepCounter = 0;
+    for (stepCounter = 0; stepCounter < foundNode.length; stepCounter++) {
+      const coord = foundNode[stepCounter];
+      this.animate(
+        'isPath',
+        coord,
+        baseDelayMs + (stepCounter - 1) * traceInterval
+      );
     }
     setTimeout(() => {
       this.setState({ isRunning: false });
-    }, traceInterval * stepCounter);
+    }, baseDelayMs + traceInterval * stepCounter);
   }
 
   resetGrid(resetWalls = false, resetWeights = false): Grid {
@@ -188,32 +186,38 @@ class PathFinder extends React.Component<Props, State> {
   render() {
     const { grid } = this.state;
     return (
-      <div className="column">
-        <div className="row">
-          <p>Currently Selected:</p>
-          <img src=""></img>
-        </div>
-        <div className="buttons">
-          <div className="row">
-            <SelectStartNode selectClickType={this.selectClickType} />
-            <SelectEndNode selectClickType={this.selectClickType} />
-            <SelectWall selectClickType={this.selectClickType} />
-            <SelectWeight selectClickType={this.selectClickType} />
-            <ResetBoard
-              reset={() => this.resetGrid(true, true)}
-              disabled={this.state.isRunning}
-            />
-          </div>
-          <div className="row">
+      <div className="path-finder">
+        <div className="column">
+          <nav className="row">
             <AlgoDropdown
               selectedAlgo={this.state.selectedAlgo}
               selectAlgo={this.selectAlgo}
             />
 
             <VisualizeAlgo findPath={this.findPath} />
-          </div>
+            <SelectStartNode
+              selectClickType={this.selectClickType}
+              currentClickType={this.state.clickType}
+            />
+            <SelectEndNode
+              selectClickType={this.selectClickType}
+              currentClickType={this.state.clickType}
+            />
+            <SelectWall
+              selectClickType={this.selectClickType}
+              currentClickType={this.state.clickType}
+            />
+            <SelectWeight
+              selectClickType={this.selectClickType}
+              currentClickType={this.state.clickType}
+            />
+            <ResetBoard
+              reset={() => this.resetGrid(true, true)}
+              disabled={this.state.isRunning}
+            />
+          </nav>
         </div>
-        <div>
+        <div className="center" id="no-margin">
           <GridView nodes={grid.nodes} transformNode={this.transformNode} />
         </div>
       </div>

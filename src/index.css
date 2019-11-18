@@ -9,31 +9,59 @@ body {
 
 p {
   font-family: 'Cabin', sans-serif;
+  font-size: 20px;
 }
 
 table {
   border: 1px solid black;
-  background-color: black;
 }
 
 td {
-  height: 50px;
-  width: 50px;
+  height: 85px;
+  width: 85px;
 }
 
 button {
-  background-color: white;
-  border: 1px solid white;
-  padding: 2%;
-  margin: 2%;
+  color: black;
+  padding: 1%;
   border-radius: 5px;
+  font-size: 24px;
+  height: 5%;
+  text-align: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgb(146, 139, 139);
 }
 
-form {
-  display: flex;
-  flex: 2;
+button:hover {
+  background-color: #539af3;
 }
 
+nav {
+  margin: 2%;
+}
+
+select {
+  font-family: 'Cabin', sans-serif;
+  font-size: 30px;
+  text-align: center;
+  height: 80px;
+  padding: 2%;
+  width: 500px;
+}
+
+option {
+  font-family: 'Cabin', sans-serif;
+  font-size: 30px;
+  text-align: center;
+  height: 5%;
+  padding: 2%;
+}
+.path-finder {
+  width: 100%;
+  margin-bottom: 80px;
+}
 .column {
   display: flex;
   flex-direction: column;
@@ -42,66 +70,83 @@ form {
 .row {
   display: flex;
   flex-direction: row;
-}
-.buttons {
-  display: flex;
-  justify-content: space-evenly;
   flex-wrap: nowrap;
+  justify-content: center;
   align-content: center;
-  flex-direction: column;
 }
-
+.center {
+  display: flex;
+  justify-content: center;
+}
+.btn-selected {
+  background-color: purple;
+  color: white;
+}
 .background {
   background-color: black;
 }
 .node {
-  background-image: url(./assets/icons/grass.png);
+  background-color: white;
   background-size: cover;
 }
 
 .start-node {
-  background-image: url(./assets/icons/squirrel.png);
+  background-image: url(./assets/icons/start.png);
   background-size: cover;
+  background-color: white;
+}
+.start-node-visited {
+  background-image: url(./assets/icons/start.png);
+  background-size: cover;
+  background-color: black;
 }
 
 .end-node {
-  background-image: url(./assets/icons/acorn.png);
+  background-image: url(./assets/icons/finish.png);
   background-size: cover;
+  background-color: white;
+}
+.end-node-visited {
+  background-image: url(./assets/icons/finish.png);
+  background-size: cover;
+  background-color: black;
 }
 
 .node-wall {
-  background-image: url(./assets/icons/tree.png);
-  background-size: cover;
+  background-color: gray;
+  box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
 }
 
 .node-weight {
-  background-image: url(./assets/icons/stump.png);
+  background-image: linear-gradient(-45deg, white 50%, black 50%);
+}
+
+.node-weight-visited {
+  background-image: url(./assets/icons/node-weight-visited.png);
   background-size: cover;
+  border-radius: 20%;
 }
 
 .node-weight-path {
-  background-image: url(./assets/icons/stump-path.png);
+  background-image: url(./assets/icons/half-rainbow.png);
   background-size: cover;
 }
 
 .node-visited-path {
-  background-image: url(./assets/icons/visited-stump.png);
-  background-size: cover;
-}
-
-.star {
-  background-image: url(./assets/icons/start.png);
-  background-size: cover;
-}
-
-.finish-line {
-  background-image: url(./assets/icons/finish.svg);
-  background-size: cover;
+  background-image: linear-gradient(
+    to right,
+    #4fa2f9,
+    #7a36b9,
+    #c039ba,
+    #cb5a81,
+    #eb9a28
+  );
+  border-radius: 20%;
 }
 
 .visited-node {
   animation-name: visitedAnimation;
-  animation-duration: 1.5s;
+  animation-duration: 2s;
   animation-timing-function: ease-out;
   animation-delay: 0;
   animation-direction: alternate;
@@ -110,38 +155,64 @@ form {
   animation-play-state: running;
 }
 
+#rainbow {
+  background-image: linear-gradient(
+    to right,
+    #4fa2f9,
+    #7a36b9,
+    #c039ba,
+    #cb5a81,
+    #eb9a28
+  );
+  color: white;
+}
+#no-margin {
+  margin: auto;
+}
 @keyframes visitedAnimation {
   0% {
-    /* transform: scale(0.3); */
-    background-image: url(./assets/icons/squirrel.png);
-    background-size: cover;
+    transform: scale(0.2);
+    background-color: #4fa2f9;
     border-radius: 100%;
+  }
+
+  25% {
+    transform: scale(0.4);
+    background-color: #7a36b9;
+    border-radius: 80%;
+  }
+
+  50% {
+    transform: scale(0.6);
+    border-radius: 60%;
+    background-color: #c039ba;
   }
 
   50% {
     transform: scale(0.8);
-    background-image: url(./assets/icons/dark-grass.png);
-    background-size: cover;
+    border-radius: 40%;
+    background-color: #cb5a81;
   }
-
-  75% {
-    background-image: url(./assets/icons/dark-grass.png);
-    background-size: cover;
-  }
-
   100% {
-    transform: scale(1);
-    background-image: url(./assets/icons/dark-grass.png);
-    background-size: cover;
+    border-radius: 20%;
+    background-color: #4fa2f9;
   }
 }
 
 .node-shortest-path {
   animation-name: shortestPath;
   animation-duration: 1.5s;
+  background-image: linear-gradient(
+    to right,
+    #4fa2f9,
+    #7a36b9,
+    #c039ba,
+    #cb5a81,
+    #eb9a28
+  );
   animation-timing-function: ease-in-out;
   animation-delay: 0;
-  animation-direction: alternate;
+  animation-direction: normal;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
   animation-play-state: running;
@@ -150,19 +221,17 @@ form {
 @keyframes shortestPath {
   0% {
     transform: scale(0.6);
-    background-image: url(./assets/icons/dirt.png);
-    background-size: cover;
+    background-color: pink;
+    border-radius: 20%;
   }
 
   50% {
     transform: scale(1.2);
-    background-image: url(./assets/icons/dirt.png);
-    background-size: cover;
+    background-color: blue;
   }
 
   100% {
-    transform: scale(1);
-    background-image: url(./assets/icons/dirt.png);
-    background-size: cover;
+    background-color: lime;
+    border-radius: 100%;
   }
 }
