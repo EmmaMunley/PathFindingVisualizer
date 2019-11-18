@@ -140,7 +140,7 @@ class PathFinder extends React.Component<Props, State> {
     const algorithm: SearchAlgo | undefined = getAlgo(selectedAlgo);
     if (algorithm) {
       const result = algorithm(newGrid, startCoord, endCoord);
-      console.log('result', result);
+
       const stepCounter = this.markVisited(
         result.visitedInOrder,
         !!result.pathFromNode

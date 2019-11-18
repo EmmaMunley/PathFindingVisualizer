@@ -15,5 +15,3 @@ const algorithms: Record<AlgoType, SearchAlgo> = {
 export function getAlgo(type: AlgoType): SearchAlgo | undefined {
   return algorithms[type];
 }
-
-console.log(AlgoType);

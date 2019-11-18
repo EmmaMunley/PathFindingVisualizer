@@ -29,6 +29,10 @@ export const dijkstra: SearchAlgo = (
     if (currentNode.isWall) {
       continue;
     }
+    if (currentNode.isVisited) {
+      continue;
+    }
+
     if (currentNode.distance === Infinity) {
       return { visitedInOrder };
     }
@@ -36,7 +40,6 @@ export const dijkstra: SearchAlgo = (
     visitedInOrder.push({ x: currentNode.row, y: currentNode.col });
 
     if (currentNode === endNode) {
-      console.log('endNode', endNode);
       const pathFromNode = getPathFromNode(endNode);
       return { pathFromNode, visitedInOrder };
     }
@@ -50,6 +53,7 @@ export const dijkstra: SearchAlgo = (
 function getPathFromNode(endNode: Node): Coordinate[] {
   const path: Coordinate[] = [];
   let currentNode: Node | undefined = endNode;
+
   while (currentNode !== undefined) {
     path.push({ x: currentNode.row, y: currentNode.col });
     currentNode = currentNode.previousNode;
@@ -67,8 +71,8 @@ function updateUnvisitedNeighbors(grid: Grid, currentNode: Node): void {
         node.previousNode && node.previousNode.distance > currentNode.distance;
       if (!hasPrev || currentDistIsShorter) {
         node.previousNode = currentNode;
+        node.distance = currentNode.distance + node.weight;
       }
     }
-    node.distance = currentNode.distance + node.weight;
   });
 }
