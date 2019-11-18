@@ -6,7 +6,7 @@ const App: React.FC = () => {
   return (
     <div className="App background">
       <header className="App-header">
-        <div>HELLO</div>
+        <div></div>
         <PathFinder />
       </header>
     </div>

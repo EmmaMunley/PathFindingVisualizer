@@ -25,10 +25,33 @@ td {
 button {
   background-color: white;
   border: 1px solid white;
+  padding: 2%;
+  margin: 2%;
+  flex: 1;
+  border-radius: 5px;
 }
 
-.buttons {
+form {
+  display: flex;
+  flex: 2;
 }
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
 .background {
   background-color: black;
 }

@@ -16,6 +16,8 @@ import {
 import { ClickType } from '../enums';
 import resetVisitedNodes from '../utils/ResetVisitedNode';
 import { dijkstra } from '../algorithms/dijkstra';
+import AlgoDropdown from './AlgoDropdown';
+import { AlgoType, getAlgo } from '../enums/AlgoType';
 
 interface Props {}
 
@@ -24,7 +26,7 @@ interface State {
   startCoord: Coordinate;
   endCoord: Coordinate;
   algos: Record<string, SearchAlgo>; //obj
-  selectedAlgo: SearchAlgo;
+  selectedAlgo: AlgoType;
   clickType?: ClickType;
   isRunning: boolean;
 }
@@ -41,15 +43,17 @@ class PathFinder extends React.Component<Props, State> {
     endCoord: endCoord,
     algos: {
       bfs: breadthFirstSearch,
+      dijkstra: dijkstra,
     },
     clickType: undefined,
-    selectedAlgo: dijkstra,
+    selectedAlgo: AlgoType.dijkstra,
     isRunning: false,
   };
 
   constructor(props: Props) {
     super(props);
     this.selectClickType = this.selectClickType.bind(this);
+    this.selectAlgo = this.selectAlgo.bind(this);
     this.transformNode = this.transformNode.bind(this);
     this.findPath = this.findPath.bind(this);
     this.resetGrid = this.resetGrid.bind(this);
@@ -69,6 +73,8 @@ class PathFinder extends React.Component<Props, State> {
       const oldStartNode = getNodeAtCoords(this.state.startCoord, grid);
       oldStartNode.isStart = false;
       clickedNode.isStart = true;
+      clickedNode.isWall = false;
+      clickedNode.weight = normal;
       this.setState({ startCoord: coord, grid });
     } else if (clickType === ClickType.selectEndNode) {
       if (clickedNode.isWall) {
@@ -77,6 +83,8 @@ class PathFinder extends React.Component<Props, State> {
       const oldEndNode = getNodeAtCoords(this.state.endCoord, grid);
       oldEndNode.isEnd = false;
       clickedNode.isEnd = true;
+      clickedNode.isWall = false;
+      clickedNode.weight = normal;
       this.setState({ endCoord: coord, grid });
     } else if (clickType === ClickType.selectWall) {
       if (clickedNode.isStart || clickedNode.isEnd) {
@@ -93,6 +101,10 @@ class PathFinder extends React.Component<Props, State> {
         : (clickedNode.weight = normal);
       this.setState({ grid });
     }
+  }
+
+  selectAlgo(selectedAlgo: AlgoType): void {
+    this.setState({ selectedAlgo });
   }
 
   selectClickType(clickType: ClickType): void {
@@ -125,16 +137,19 @@ class PathFinder extends React.Component<Props, State> {
     }
     this.setState({ isRunning: true });
     const newGrid = this.resetGrid(false);
-    const result = selectedAlgo(newGrid, startCoord, endCoord);
-    console.log('result', result);
-    const stepCounter = this.markVisited(
-      result.visitedInOrder,
-      !!result.pathFromNode
-    );
-    if (result.pathFromNode && stepCounter) {
-      this.markPath(result.pathFromNode, stepCounter);
-    } else {
-      alert('no path was found');
+    const algorithm: SearchAlgo | undefined = getAlgo(selectedAlgo);
+    if (algorithm) {
+      const result = algorithm(newGrid, startCoord, endCoord);
+      console.log('result', result);
+      const stepCounter = this.markVisited(
+        result.visitedInOrder,
+        !!result.pathFromNode
+      );
+      if (result.pathFromNode && stepCounter) {
+        this.markPath(result.pathFromNode, stepCounter);
+      } else {
+        alert('no path was found');
+      }
     }
   }
 
@@ -173,17 +188,30 @@ class PathFinder extends React.Component<Props, State> {
   render() {
     const { grid } = this.state;
     return (
-      <div className="buttons">
-        <SelectStartNode selectClickType={this.selectClickType} />
-        <SelectEndNode selectClickType={this.selectClickType} />
-        <SelectWall selectClickType={this.selectClickType} />
-        <SelectWeight selectClickType={this.selectClickType} />
-        <VisualizeAlgo findPath={this.findPath} />
-        <ResetBoard
-          reset={() => this.resetGrid(true, true)}
-          disabled={this.state.isRunning}
-        />
-        <GridView nodes={grid.nodes} transformNode={this.transformNode} />
+      <div className="column">
+        <div className="buttons">
+          <div className="row">
+            <SelectStartNode selectClickType={this.selectClickType} />
+            <SelectEndNode selectClickType={this.selectClickType} />
+            <SelectWall selectClickType={this.selectClickType} />
+            <SelectWeight selectClickType={this.selectClickType} />
+            <ResetBoard
+              reset={() => this.resetGrid(true, true)}
+              disabled={this.state.isRunning}
+            />
+          </div>
+          <div className="row">
+            <AlgoDropdown
+              selectedAlgo={this.state.selectedAlgo}
+              selectAlgo={this.selectAlgo}
+            />
+
+            <VisualizeAlgo findPath={this.findPath} />
+          </div>
+        </div>
+        <div>
+          <GridView nodes={grid.nodes} transformNode={this.transformNode} />
+        </div>
       </div>
     );
   }
