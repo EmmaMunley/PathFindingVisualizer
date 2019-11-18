@@ -189,6 +189,10 @@ class PathFinder extends React.Component<Props, State> {
     const { grid } = this.state;
     return (
       <div className="column">
+        <div className="row">
+          <p>Currently Selected:</p>
+          <img src=""></img>
+        </div>
         <div className="buttons">
           <div className="row">
             <SelectStartNode selectClickType={this.selectClickType} />
